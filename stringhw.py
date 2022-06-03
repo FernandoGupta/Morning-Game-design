@@ -38,6 +38,7 @@ number=len(word1) # number of letters in first word
 firstpart= word1[:number//2] #to find first half of word
 secondpart= word1[number//2:] #to find second half of word 
 print('the new string is:', firstpart+word2+secondpart) #desplay new string with the 
+
 # Problem 3 Given two strings,s1 and s2, write a program to return a new string made of s1 and s2’s first, middle, and last characters.
 # Given S1=America S2=Japan Expected output AJrpan
 wordA= input('ur first word is ') #get word 
@@ -53,9 +54,10 @@ middlenumberB = int(numberB/2) #number of middle digit of workd
 middleB = wordB[middlenumberB] #middle letter of word
 lastB = wordB[numberB-1] #get last letter of word
 print('the new string is:', firstA+firstB+middleA+middleB+lastA+lastB)
+
 # Given string contains a combination of the lower and upper case letters. Write a program to arrange the characters of a string so that all lowercase letters should come first.
 # Given PyNaTive Expected output is yaivePNT
-word=input('ur word is') #get word 
+word=input('ur word is ') #get word 
 uppercase=''.join([c for c in word if c.isupper()])
 lowercase=''.join([c for c in word if c.islower()])
 print ('this is the new string:', lowercase+uppercase)
