@@ -18,23 +18,27 @@ Game=True
 cnt=0
 # a function is a section of the program that we call when we need it 
 def hint():
-    print("|*************************************|")
-    print("|         Here is a new hint          |")
-    print("|These creatures all have a hard shell|")
-    print("|        only 2 shells in fact        |")
-    print("|*************************************|")
-
-    guess2 = input("plese put your new guess here: ")
-    if guess2 == theword:
-        print("Congrats, You got it")
+    global cnt  #allows us to modify the variable all over the program 
+    if cnt ==0:
+        print("|*************************************|")
+        print("|         Here is a new hint          |")
+        print("|These creatures all have a hard shell|")
+        print("|        only 2 shells in fact        |")
+        print("|*************************************|")
+     
+    # guess2 = input("plese put your new guess here: ")
+    # if guess2 == theword:
+    #     print("Congrats, You got it")
+    # else:
+    #     print("wrong again, you are pretty bad at this, try again")
+    elif cnt == 1:    
+        print("|**************************************|")
+        print("|       Here is your final hint        |")
+        print("|  These creatures almost never move   |")
+        print("|**************************************|")
     else:
-        print("wrong again, you are pretty bad at this, try again")
-
-    print("|**************************************|")
-    print("|       Here is your final hint        |")
-    print("|  These creatures almost never move   |")
-    print("|**************************************|")
-
+        print("You are horrible at guessing, no more hints, go till you get it right")
+    cnt+=1 # cnt= cnt + 1
 while Game:
     print("|***************************************|")
     print("|         Guess The Animal!!!           |")
@@ -47,35 +51,27 @@ while Game:
     print("|  These animals are big fans of water  |")
     print("|***************************************|")
 # user name make more persoal and will be used to keep score    
-    name= input('what is your name: ')
+    name=input('what is your name: ')
     print(name, end=" ")
     answer=input("would you like to  play " )
-    if 'n' or 'N' in answer:
+    if 'n' in answer:
         break
-
-    guess1=input("plese put your guess here: ")
-    if guess1 == theword:
-        print("Congrats, You got it")
-    else:
-        print("you missed it, try again")
-
-
-
-    guess3 = input("plese put your final guess here: ")
-
-    if guess3 == theword:
-        print("Congrats, You got it")
-    else:
-        print("You are horrible at guessing, no more hints, go till you get it right")
-
-
-    # Give a Variable to your loop 
+    os.system('cls')
     check=True 
-    while check:
-        ans = input("plese put your guess here: ")
-        if ans == theword:
-            name = True 
+    while check and cnt <5:
+        guess=input("plese put your guess here: ")
+        print()
+        if guess == theword:
             print("Congrats, You got it")
             check=False 
         else:
-            print("wrong again, try again")
+            hint()
+        cnt+=1
+    os.system('cls')
+    print('<><><><><><><><><><><><>')
+    answer=input("do you want to play again")
+    if ('n'or 'N') in answer:
+        Game=False 
+        print("Thank you for playing my game")
+
+
