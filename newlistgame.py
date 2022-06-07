@@ -34,41 +34,22 @@ def hint():
     #     print("Congrats, You got it")
     # else:
     #     print("wrong again, you are pretty bad at this, try again")
-    if cnt ==1:    
+    elif cnt ==1:    
         print("|**************************************|")
         print("|       Here is your final hint        |")
         print("|  These creatures almost never move   |")
         print("|**************************************|")
-    if cnt ==2:
-        print("wrong, no more hints, go till you get it right")
-    if cnt ==3:
-        print("wrong, no more hints, go till you get it right")
-    if cnt ==4:
-        print("wrong, no more hints, go till you get it right")
-    if cnt ==5:
-        print("wrong, no more hints, go till you get it right")
-    if cnt ==6:
+    elif cnt ==6:
         print("this fruit is normaly on the sweeter side")
     elif cnt ==7:
-        print("this fruit is typicaly very popular")
-    if cnt ==8:
-        print("wrong, no more hints, go till you get it right")
-    if cnt ==9:
-        print("wrong, no more hints, go till you get it right")
-    if cnt ==10:
-        print("wrong, no more hints, go till you get it right")
-    if cnt ==11:
-        print("wrong, no more hints, go till you get it right")
-    if cnt ==12:
+        print("wrong,this fruit is typicaly very popular")
+    elif cnt ==12:
         print("these components are all inside the computer")
-    if cnt ==13:
-        print("these components are all very nescescary for the computer to run")
-    if cnt ==14:
+    elif cnt ==13:
+        print("wrong,these components are all very nescescary for the computer to run")
+    else:
         print("wrong, no more hints, go till you get it right")
-    if cnt ==15:
-        print("wrong, no more hints, go till you get it right")
-    if cnt ==16:
-        print("wrong, no more hints, go till you get it right")
+    
 
 while Game:
     print("|***************************************|")
@@ -99,7 +80,7 @@ while Game:
     #call function to select the word from the right lists 
     os.system('cls')
     cnt=0
-    print("this animal loves the water")
+    print("you chose animals, your hint is this animal loves the water")
     check=True 
     while check and cnt <5 and choice == 1:
         guess=input("plese put your guess here: ")
@@ -112,7 +93,7 @@ while Game:
         cnt+=1
     os.system('cls') 
     cnt=6
-    print("these fruits are very orange")
+    print("you chose fruits, your hint is these fruits are very orange")
     while check and cnt>5 and cnt<11 and choice == 2:
         guess=input("plese put your guess here: ")
         print()
@@ -124,7 +105,8 @@ while Game:
         cnt+=1   
     os.system('cls')
     cnt=12
-    print("these components are all conected")
+    if choice == 3:
+         print("you chose computer parts, your hint is, these components are all conected")
     while check and cnt>11 and cnt<17 and choice == 3:
         guess=input("plese put your guess here: ")
         print()
@@ -135,9 +117,9 @@ while Game:
             hint()
         cnt+=1      
     print('<><><><><><><><><><><><>')
-    answer=input("do you want to play again")
+    answer=input("do you want to play again: ")
     if ('n'or 'N') in answer:
         Game=False 
-        print("Thank you for playing my game")
+        print("Thank you for playing my game!   ")
 
 
