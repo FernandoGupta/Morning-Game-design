@@ -86,7 +86,7 @@ while Game:
     if 'n' in answer:
         break
     while True:
-        choice=input ("what game would you like to play 1, 2, or 3")
+        choice=input ("what game would you like to play 1, 2, or 3 ")
         # preventing error we use try and except 
         try:
             choice=int(choice)
