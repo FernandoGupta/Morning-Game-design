@@ -13,11 +13,8 @@ seconds=.5
 
 
 list1 = ["coral","scallop","sea urchin","oyster","mussel","cockle","clam","geoduck","abelone","ostrea"]
-list2 = ["mango", "papaya", "orange","mandarin","clemintine","peach","apricot","nectarine","kumquat","bannana"]
+list2 = ["mango", "papaya", "orange","mandarin","clemintine","nectarine","bannana"]
 list3 = ["motherboard","CPU","GPU","RAM","SSD","HDD","ROM"]
-theword1=random.choice(list1)
-theword2=random.choice(list2)
-theword3=random.choice(list3)
 Game=True 
 cnt=0
 # a function is a section of the program that we call when we need it 
@@ -50,7 +47,17 @@ def hint():
     else:
         print("wrong, no more hints, go till you get it right")
     
-
+def selectWrd(choice): #this is a function 
+    global theword 
+    if choice ==1:
+        theword= random.choice(list1) 
+        return 
+    if choice ==2:
+        theword= random.choice(list2)
+    if choice ==3:
+        theword= random.choice(list3)
+name=input("What is your name? ")
+high=0 #to find the highest score 
 while Game:
     print("|***************************************|")
     print("|         Guess The Thing!!!            |")
@@ -82,10 +89,10 @@ while Game:
     cnt=0
     print("you chose animals, your hint is this animal loves the water")
     check=True 
-    while check and cnt <5 and choice == 1:
+    while check and cnt <5 :
         guess=input("plese put your guess here: ")
         print()
-        if guess == theword1:
+        if guess == theword:
             print("Congrats, You got it")
             check=False 
         else:
@@ -97,7 +104,7 @@ while Game:
     while check and cnt>5 and cnt<11 and choice == 2:
         guess=input("plese put your guess here: ")
         print()
-        if guess == theword2:
+        if guess == theword:
             print("Congrats, You got it")
             check=False 
         else:
@@ -110,7 +117,7 @@ while Game:
     while check and cnt>11 and cnt<17 and choice == 3:
         guess=input("plese put your guess here: ")
         print()
-        if guess == theword3:
+        if guess == theword:
             print("Congrats, You got it")
             check=False 
         else:
@@ -120,6 +127,6 @@ while Game:
     answer=input("do you want to play again: ")
     if ('n'or 'N') in answer:
         Game=False 
-        print("Thank you for playing my game!   ")
+        print("Thank you for playing my game! ")
 
 

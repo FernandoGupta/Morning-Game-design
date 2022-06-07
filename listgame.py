@@ -39,6 +39,7 @@ def hint():
     else:
         print("You are horrible at guessing, no more hints, go till you get it right")
     cnt+=1 # cnt= cnt + 1
+
 while Game:
     print("|***************************************|")
     print("|         Guess The Animal!!!           |")
