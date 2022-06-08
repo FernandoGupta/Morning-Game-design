@@ -9,11 +9,8 @@
 
 
 
-from ast import Num
-from itertools import count
 import random
 import os, datetime
-import os
 date=datetime.datetime.now()
 
 
@@ -33,31 +30,26 @@ def Menu(choice):
         print("you have 5 guesses")
         input("press enter to return to menu")
     global num
-    global high
-    global cscore
+  
     bcnt=0
     if choice ==2:
         num = random.randint(1,25)+1
-        bcnt=+1
     if choice ==3:
         num = random.randint(1,50)+1
-        bcnt=+1
     if choice ==4:
         num = random.randint(1,100)+1
-        bcnt=+1
     if choice ==5:
-        f=open("scores.txt","r+")
-        numbers = sorted(list(map(int, f.readlines())))
-        print (numbers[5:])
+       File=open("scoreboard.txt",'r') #this opens a file to read
+       print()
+       for line in File.readlines():
+           print(line)
+           File.close() 
     if choice ==6:
         print("thanks for playing, your total score is " + str(score))
         input("press enter to play again")
 
         
-        
-myFile=open("scores.txt",'a') #this opens the file to write 
-myFile.write (str(high) + "\t"+name+"\t"+ date.strftime("%m/%d/%Y")) 
-myFile.close()
+
 
 
 
@@ -92,19 +84,16 @@ while Game:
             check=False
         cnt+=1   
         if cnt ==5:
-            print("sorry! Thats the max guesses")
-            input("press enter to return to menu")
-        cscore=2000-cnt*100
-        score=cscore+bcnt*200
-        if score > high:
+            print("sorry! Thats the max guesses")            
+    cscore=2000-cnt*100
+    input("press enter to return to menu")
+File=open("cscores.txt",'a') 
+File.write (str(cscore)) 
+File.close()
+with open("cscores.txt") as f:
+    score=(sum(float(line)for line in f))
+    if score > high:
             high=score  
-    
-myFile=open("scores.txt",'a') #this opens the file to write 
-myFile.write (str(high) + "\t"+name+"\t"+ date.strftime("%m/%d/%Y")) 
-myFile.close()
-myFile = open("scores.txt",'r')
-stuff=myFile.readlines()
-sorted= stuff.sort(reverse=True)
-myFile.close()
-for line in sorted:
-    print (line)
+File=open("scoreboard.txt",'a')
+File.write(str(score)+"\t"+name+"\t"+ date.strftime("%m/%d/%Y"))
+File.close()
