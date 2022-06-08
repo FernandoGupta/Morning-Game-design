@@ -24,29 +24,32 @@ Game=True
 cnt=0
 high=0
 name=input("What is your name? ")
-def Menu(choice):
+def Menu(choice): #function to make menu work 
     if choice ==1:
         print("In this game your goal is to guess a number. There are 3 different lvls, numbers 1-25, 1-50 and 1-100")
         print("you have 5 guesses")
-        input("press enter to return to menu")
+        input("press enter to return to menu") #this displays the instuctions 
     global num
   
-    bcnt=0
+    
     if choice ==2:
         num = random.randint(1,25)+1
     if choice ==3:
-        num = random.randint(1,50)+1
+        num = random.randint(1,50)+1 #these here will generate the number for the different lvl 
     if choice ==4:
         num = random.randint(1,100)+1
     if choice ==5:
        File=open("scoreboard.txt",'r') #this opens a file to read
        print()
-       for line in File.readlines():
+       for line in File.readlines(): #should show highscore,r n not work
            print(line)
            File.close() 
     if choice ==6:
-        print("thanks for playing, your total score is " + str(score))
-        input("press enter to play again")
+        print("thanks for playing")
+        input("press enter to play again") #this is the exit part of the function 
+        with open("cscore.txt",'r+') as f:
+            f.truncate(0)
+
 
         
 
@@ -87,13 +90,13 @@ while Game:
             print("sorry! Thats the max guesses")            
     cscore=2000-cnt*100
     input("press enter to return to menu")
-File=open("cscores.txt",'a') 
-File.write (str(cscore)) 
+File=open("cscores.txt",'a') #this creates a score from this game 
+File.write (str(cscore)) #scores are together in a seperate file
 File.close()
 with open("cscores.txt") as f:
-    score=(sum(float(line)for line in f))
+    score=(sum(float(line)for line in f))#added together to make a total score 
     if score > high:
             high=score  
 File=open("scoreboard.txt",'a')
 File.write(str(score)+"\t"+name+"\t"+ date.strftime("%m/%d/%Y"))
-File.close()
+File.close() #this adds that score to the scoreboard 
