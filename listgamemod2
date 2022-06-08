@@ -5,6 +5,7 @@
 from ctypes.wintypes import WORD
 import random
 import os, datetime
+from ctypes.wintypes import WORD
 import sys
 date=datetime.datetime.now()
 
@@ -17,18 +18,17 @@ theword=""
 list1 = ["coral","scallop","sea urchin","oyster","mussel","cockle","clam","geoduck","abelone","ostrea"]
 list2 = ["mango", "papaya", "orange","mandarin","clemintine","nectarine","bannana"]
 list3 = ["motherboard","CPU","GPU","RAM","SSD","HDD","ROM"]
-print()
+Game=True
+cnt=0
 def selectWrd(choice): #this is a function 
     global theword 
     if choice ==1:
         theword= random.choice(list1) 
-        return 
     if choice ==2:
         theword= random.choice(list2)
     if choice ==3:
         theword= random.choice(list3)
-Game=True
-cnt=0
+    return theword
 def hint():
     global cnt  #allows us to modify the variable all over the program 
     if cnt ==0:
@@ -46,16 +46,16 @@ def hint():
 name=input("What is your name? ")
 high=0 #to find the highest score 
 while Game:
+
+
     print("|***************************************|")
     print("|         Guessing  Game   !!           |")
     print("|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^|")
     print("|          1.animals                    |")
     print("|          2.Fruits                     |")
-    print("|      3 Cputer parts                   |")
+    print("|      3 Computer parts                 |")
     print("|           4.QUIT GAME                 |")
     print("|First we will provide you with one hint|")
-    print("|           !Your Hint Is!              |")
-    print("|  These animals are big fans of water  |")
     print("|***************************************|")
     
 # add user name, make it more personal y will need for keeping score
@@ -71,7 +71,7 @@ while Game:
         if choice>0 and choice <4:
                 break
         elif choice == 4:
-                 sys.exit()
+                 sys.exit()#this is just to stop the code when exiting from menu
         else:
             print("give me 1,2  3")
             #call function to select the word from the right list
@@ -107,8 +107,15 @@ while Game:
     os.system('cls')
     print("<><><><><><><><><><><><>")
     print("Thank you for playing my game" )
+    print("your high score is "+ str(high)) #this is to display the highest score 
     cnt == 0
-print("your highest score is "+ str(high)) #this is to display the highest score 
-myFile=open("game.txt",'w') #this opens the file to write 
-myFile.write (str(high) + "\t"+name+"\t"+ date.strftime("%m/%d/%Y")) 
+scrline=(str(high) + "\t"+name+"\t"+ date.strftime("%m/%d/%Y")) 
+myFile=open("game.txt",'a') #this opens the file to write 
+myFile.write(scrline)
 myFile.close()
+myFile = open("game.txt",'r')
+stuff=myFile.readlines()
+sorted= stuff.sort(reverse=True)
+myFile.close()
+for line in sorted:
+    print (line) 
