@@ -75,8 +75,9 @@ while Game:
         else:
             print("give me 1,2  3")
             #call function to select the word from the right list
-
-        os.system('cls')
+    theword= selectWrd(choice)
+        
+    os.system('cls')
 
 
     def hintgiver(choice):
@@ -95,7 +96,7 @@ while Game:
             print("Congrats, You got it")
             check=False
         else:
-            hint()
+            hintgiver(choice)
         cnt+=1   # cnt= cnt + 1
         if cnt ==5:
             print("sorry!")
@@ -109,9 +110,9 @@ while Game:
     print("Thank you for playing my game" )
     print("your high score is "+ str(high)) #this is to display the highest score 
     cnt == 0
-scrline=(str(high) + "\t"+name+"\t"+ date.strftime("%m/%d/%Y")) 
+screline=(str(high) + "\t"+name+"\t"+ date.strftime("%m/%d/%Y")) 
 myFile=open("game.txt",'a') #this opens the file to write 
-myFile.write(scrline)
+myFile.write(screline)
 myFile.close()
 myFile = open("game.txt",'r')
 stuff=myFile.readlines()

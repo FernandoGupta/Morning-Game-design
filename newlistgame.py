@@ -19,7 +19,7 @@ Game=True
 cnt=0
 # a function is a section of the program that we call when we need it 
 def hint():
-    global cnt  #allows us to modify the variable all over the program 
+      #allows us to modify the variable all over the program 
     if cnt ==0:
         print("|*************************************|")
         print("|         Here is a new hint          |")
