@@ -14,32 +14,39 @@ Game=True
 cnt=0
 high=0
 score=0
+check=False
 cscore=0
 name=input("What is your name? ")
-def Menu(choice): #function to make menu work 
+def Menu(choice):#function to make menu work
+    global check  
     if choice ==1:
         print("In this game your goal is to guess a number. There are 3 different lvls, numbers 1-25, 1-50 and 1-100")
         print("you have 5 guesses")
         input("press enter to return to menu") #this displays the instuctions 
+        check=False 
     global num 
-    
     if choice ==2:
         num = random.randint(1,25)+1
+        check=True
     if choice ==3:
         num = random.randint(1,50)+1 #these here will generate the number for the different lvl 
+        Check=True
     if choice ==4:
         num = random.randint(1,100)+1
+        Check=True
     if choice ==5:
         File=open("scoreboard.txt",'r') #this opens a file to read
         stuff=File.readlines() #should show highscore,r n not work
         File.close()
         for line in stuff:
             print (line)
+        check=False 
     if choice ==6:
         print("thanks for playing")
-        input("press enter to play again") #this is the exit part of the function 
+        input("press enter to play again?") #this is the exit part of the function 
         with open("cscore.txt",'r') as f:
-            f.truncate(0) #this clears teh cscore file which keeps the score from teh different levels and ads it up to make the total score 
+            f.truncate(0) #this clears the  cscore file which keeps the score from teh different levels and ads it up to make the total score 
+        
 while Game:
     print("|****************************************|")
     print("|         NUMBER GUESSING GAME           |")
@@ -58,7 +65,7 @@ while Game:
 
 
 
-    check=True
+
     while check and cnt <5:
         guess=input("plese put your guess here: ")
         print()
