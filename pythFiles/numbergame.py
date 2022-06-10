@@ -14,7 +14,7 @@ Game=True
 cnt=0
 high=0
 score=0
-check=False
+Check=False
 cscore=0
 name=input("What is your name? ")
 def Menu(choice):#function to make menu work
@@ -23,11 +23,11 @@ def Menu(choice):#function to make menu work
         print("In this game your goal is to guess a number. There are 3 different lvls, numbers 1-25, 1-50 and 1-100")
         print("you have 5 guesses")
         input("press enter to return to menu") #this displays the instuctions 
-        check=False 
+        Check=False 
     global num 
     if choice ==2:
         num = random.randint(1,25)+1
-        check=True
+        Check=True
     if choice ==3:
         num = random.randint(1,50)+1 #these here will generate the number for the different lvl 
         Check=True
@@ -40,7 +40,7 @@ def Menu(choice):#function to make menu work
         File.close()
         for line in stuff:
             print (line)
-        check=False 
+        Check=False 
     if choice ==6:
         print("thanks for playing")
         input("press enter to play again?") #this is the exit part of the function 
@@ -65,7 +65,7 @@ while Game:
 
 
 
-
+    cnt=0 
     while check and cnt <5:
         guess=input("plese put your guess here: ")
         print()
@@ -75,11 +75,11 @@ while Game:
         cnt+=1   
         if cnt ==5:
             print("sorry! Thats the max guesses")            
-    cscore=2000-cnt*100
+    score=500-cnt*50
     input("press enter to return to menu")
-File=open("cscores.txt",'w') #this creates a score from this game 
-File.write (str(cscore)) #scores are together in a seperate file
-File.close()
+#File=open("cscores.txt",'w') #this creates a score from this game 
+#File.write (str(cscore)) #scores are together in a seperate file
+#File.close()
 #with open("cscores.txt") as f:
   #  score=(sum(float(line)for line in f))#added together to make a total score 
   #  if score > high:
@@ -88,3 +88,4 @@ File=open("scoreboard.txt",'a')
 screline=str(score)+"\t"+name+"\t"+ date.strftime("%m/%d/%Y")
 File.write=(screline)
 File.close() #this adds that score to the scoreboard 
+
