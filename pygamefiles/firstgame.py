@@ -34,8 +34,8 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("My First Game") # title of the window
 
 #images
-bg = pygame.image.load("PygameFiles\images\\bgsmall.jpg")
-char = pygame.image.load("PygameFiles\images\PixelArtTutorial.png")
+bg = pygame.image.load("pygamefiles\game\\bgsmall.jpg")
+char = pygame.image.load("pygamefiles\game\PixelArtTutorial.png")
 char = pygame.transform.scale(char, (50,50))
 # screen.blit(bg, (0,0))
 # pygame.display.update()
@@ -82,7 +82,7 @@ def instruction():
     screen.blit(Title, (xd, 50))\
 
     #Instructions File
-    myFile = open("PygameFiles\instructions.txt", "r")
+    myFile = open("pygamefiles\instructions.txt", "r")
     content = myFile.readlines()
 
     #print instructions
