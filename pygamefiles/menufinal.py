@@ -3,16 +3,28 @@
 from pickle import TRUE
 import pygame, os, time, random, math
 pygame.init()
-
-
-TITLE_FONT = pygame.font.SysFont('comicsans', 40)
-MENU_FONT = pygame.font.SysFont('comicsans', 20)
-
-os.system('cls')
-
 #screen dimentions
 WIDTH = 700
 HEIGHT = 700
+
+
+TITLE_FONT = pygame.font.SysFont('comicsans', 20)
+MENU_FONT = pygame.font.SysFont('comicsans', 25)
+
+os.system('cls')
+
+#buttons ofr menu
+Bx=WIDTH//3
+Button_menu=pygame.Rect(Bx,150,WIDTH//4,40)
+Button_instruct=pygame.Rect(Bx,150,WIDTH//4,40)
+Button_settings=pygame.Rect(Bx,200,WIDTH//4,40)
+Button_Game1=pygame.Rect(Bx,250,WIDTH//4,40)
+Button_Game2=pygame.Rect(Bx,300,WIDTH//4,40)
+Button_score=pygame.Rect(Bx,350,WIDTH//4,40)
+Button_exit=pygame.Rect(Bx,400,WIDTH//4,40)
+Button_color=pygame.Rect(Bx,150,WIDTH//4,40)
+Button_size=pygame.Rect(Bx,200,WIDTH//4,40)
+Button_sound=pygame.Rect(Bx,250,WIDTH//4,40)
 
 #colors
 colors = {"white":(255,255,255), "grey":(96,96,96), "black":(0,0,0), "red":(255,0,0), "green":(0,255,0), "blue":(0,0,255), "pink":(204,0,204), "orange":(255,128,0), "yellow":(255,255,0), "purple":(127,0,255)}
@@ -56,24 +68,14 @@ insSquare=pygame.Rect(xig,yig,ibox,ibox)
 #bounce
 mountainSquare = pygame.Rect(250, 320, 180, 250)
 insSquare=pygame.Rect(xig,yig,ibox,ibox)
-#buttons ofr menu
-Bx=WIDTH//3
-Button_menu=pygame.Rect(Bx,150,WIDTH//4,40)
-Button_instruct=pygame.Rect(Bx,150,WIDTH//4,40)
-Button_settings=pygame.Rect(Bx,200,WIDTH//4,40)
-Button_Game1=pygame.Rect(Bx,250,WIDTH//4,40)
-Button_Game2=pygame.Rect(Bx,300,WIDTH//4,40)
-Button_score=pygame.Rect(Bx,350,WIDTH//4,40)
-Button_exit=pygame.Rect(Bx,400,WIDTH//4,40)
-Button_color=pygame.Rect(Bx,150,WIDTH//4,40)
-Button_size=pygame.Rect(Bx,200,WIDTH//4,40)
-Button_sound=pygame.Rect(Bx,250,WIDTH//4,40)
+
+
 
 
 run= True
 Game = False  
 speed = 2  
-def Menu(Title,messageMenu):
+def Menu(Title,message,MENU):
     
     textTitle = TITLE_FONT.render(Title,1,colors.get("blue"))
     screen.fill(colors.get("white"))
@@ -81,7 +83,7 @@ def Menu(Title,messageMenu):
     screen.blit(textTitle,(xd,50))
     yMenu=150
     clslist=list(colors.keys())
-    for item in messageMenu:
+    for item in message:
         colorRand=random.choice(clslist)
         if colorRand=="blue":
             colorRand=random.choice(clslist)
@@ -94,24 +96,25 @@ def Menu(Title,messageMenu):
     pygame.time.delay(50)
     yMenu+=50 
 
-    for event in pygame.event.get():
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            mousePos = pygame.mouse.get_pos
-            mx = mousePos[0]
-            my = mousePos[1]
-            print(mx,my)
-            if Button_instruct.collidepoint((mx,my)):
-                instruction("instructions","instructions.txt")
-            if Button_settings.collidepoint((mx,my)):
-                settings()
-            if Button_Game1.collidepoint((mx,my)):
-                Game_1()
-            if Button_Game2.collidepoint((mx,my)):
-                Game_1()
-            if Button_score.collidepoint((mx,my)):
-                score("ScoreBoard","scoreboard.txt")
-            if Button_exit.collidepoint((mx,my)):
-                textTitle = TITLE_FONT.render("Bye-Bye",1, colors.get("blue"))
+    while MENU:
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mousePos = pygame.mouse.get_pos
+                mx = mousePos[0]
+                my = mousePos[1]
+                print(mx,my)
+                if Button_instruct.collidepoint((mx,my)):
+                    instruction("instructions","instructions.txt")
+                if Button_settings.collidepoint((mx,my)):
+                    settings()
+                if Button_Game1.collidepoint((mx,my)):
+                    Game_1()
+                if Button_Game2.collidepoint((mx,my)):
+                    Game_1()
+                if Button_score.collidepoint((mx,my)):
+                    score("ScoreBoard","scoreboard.txt")
+                if Button_exit.collidepoint((mx,my)):
+                    textTitle = TITLE_FONT.render("Bye-Bye",1, colors.get("blue"))
 
 def instruction():
     #title font
@@ -182,7 +185,9 @@ def settings(Settings,messageSettings):
             if Button_color.collidepoint((mx,my)):
                 print("y")
             if Button_size.collidepoint((mx,my)):
-                print("m")
+                WIDTH = 1500
+                HEIGHT = 1500
+                pygame.display.update()
             if Button_sound.collidepoint((mx,my)):
                 print("c")
 
