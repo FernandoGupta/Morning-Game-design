@@ -1,2 +1,3 @@
-10000  fernadn   
-2 everyone
+1000 fernando 
+122 fernando
+14 fernando 

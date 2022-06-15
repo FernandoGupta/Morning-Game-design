@@ -1,1 +1,3 @@
-when the uga booga 
+This Game is liek tag where you have to get the circle to touch the square
+the circle gets bigger every time it touches 
+use arrow keys for circle, WASD for square
