@@ -8,8 +8,8 @@ WIDTH = 700
 HEIGHT = 700
 
 
-TITLE_FONT = pygame.font.SysFont('comicsans', 20)
-MENU_FONT = pygame.font.SysFont('comicsans', 25)
+TITLE_FONT = pygame.font.SysFont('comicsans', WIDTH//20)
+MENU_FONT = pygame.font.SysFont('comicsans', WIDTH//25)
 
 os.system('cls')
 
@@ -73,11 +73,10 @@ insSquare=pygame.Rect(xig,yig,ibox,ibox)
 
 
 run= True
-Game = False  
 speed = 2  
 def Menu(Title,message,MENU):
     
-    textTitle = TITLE_FONT.render(Title,1,colors.get("blue"))
+    textTitle = TITLE_FONT.render("circle eat square",1,colors.get("blue"))
     screen.fill(colors.get("white"))
     xd = WIDTH//2 - (textTitle.get_width()//2)
     screen.blit(textTitle,(xd,50))
@@ -157,7 +156,7 @@ def score():
  
 def settings(Settings,messageSettings):
 
-    textTitle = TITLE_FONT.render(Settings,1,colors.get("blue"))
+    textTitle = TITLE_FONT.render("settings",1,colors.get("blue"))
     screen.fill(colors.get("white"))
     xd = WIDTH//2 - (textTitle.get_width()//2)
     screen.blit(textTitle,(xd,50))
