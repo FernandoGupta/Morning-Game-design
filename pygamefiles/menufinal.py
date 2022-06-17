@@ -1,7 +1,7 @@
 # Fernando Gupta
 # making the full menu
 
-from turtle import width
+
 import pygame, time,os,random, math, sys,datetime
 pygame.init()
 
@@ -30,6 +30,9 @@ Button_colors=pygame.Rect(Bx,150,WIDTH//4,40)
 Button_size=pygame.Rect(Bx,200,WIDTH//4,40)
 Button_sound=pygame.Rect(Bx,300,WIDTH//4,40)
 Button_SmalSize=pygame.Rect(Bx,250,WIDTH//4,40)
+name_box = pygame.Rect(Bx,250,WIDTH//4,40)
+
+
 
 #colors
 colors = {"white":(255,255,255),"grey":(96,96,96), "red":(255,0,0), "green":(0,255,0), "blue":(0,0,255), "pink":(204,0,204), "orange":(255,128,0), "yellow":(255,255,0), "purple":(127,0,255)}
@@ -38,13 +41,21 @@ messageMenu=['instructions','settings','game 1','game 2','scoreboard','exit']
 messageSettings=["Background Color","Screen Size bigger","Screen Size smaller","sound on/off"]
 titleMain="circle eat square menu"
 
+clock=pygame.time.Clock()
 #create a display
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("My First Game") # title of the window
+pygame.display.set_caption("main menu") # title of the window
 #images
+nameClr=colors.get("red")
+bxrClr=colors.get("blue")
+user_name=""
 bg = colors.get("grey")
 char = pygame.image.load("pygamefiles\game\PixelArtTutorial.png")
 char = pygame.transform.scale(char, (50,50))
+user_name=''
+nameclr=(0,105,105)
+
+cnt=0
 # screen.blit(bg, (0,0))
 # pygame.display.update()
 # pygame.time.delay(5000)
@@ -92,8 +103,36 @@ backgrnd=colors.get("limeGreen")
 run = True
 Game = False
 
+def Name_enter():
+    global user_name, cnt
+    Name=TITLE_FONT.render("Enter name",1,colors.get("blue"))
+    screen.fill(colors.get("white"))
+    screen.blit(Name,(100,50))
+    pygame.display.update()
+    while run:
+        for event in pygame.event.get():
+            if event.type==pygame.QUIT:
+                Menu(titleMain,messageMenu, True)
+                print("You quit")
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                print() 
+            if event.type == pygame.KEYDOWN:
+                if event.key==pygame.K_RETURN:
+                    print(user_name)
+                    Menu(titleMain,messageMenu, True)
+                if event.key==pygame.K_BACKSPACE:
+                    user_name=user_name[:-1]
+                else:
+                    user_name+=event.unicode
+            pygame.draw.rect(screen,bxrClr,name_box)
+        text_surface=MENU_FONT.render(user_name,True,nameClr)
+        screen.blit(text_surface,(name_box.x+5,name_box.y+5))
+        
+        pygame.display.flip()
+        cnt+=1
+
+
 def Menu(Title, message,MENU):
-    
     textTitle = TITLE_FONT.render(Title, 1, colors.get("blue"))
     screen.fill(colors.get('white'))
     xd = WIDTH//2 - (textTitle.get_width()//2)
@@ -246,8 +285,7 @@ def settings():
                
                 # if Button_2.collidepoint((mx, my)):
                 #     return False
-             
-            
+           
 def Game_1():
     global mx,my, insSquare, charx,chary, cx,cy, rad
     while run:
@@ -312,8 +350,11 @@ def Game_1():
 
         #pygame.draw.rect(screen, colors.get('white'), mountainSquare,)
         pygame.display.update()  
-    
-Menu(titleMain,messageMenu, True)
+        clock.tick(180)
+   
+Name_enter()
+
+
 
 
 

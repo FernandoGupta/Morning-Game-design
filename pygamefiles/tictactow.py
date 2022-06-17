@@ -12,7 +12,8 @@
 #functions: draw_grid() and zero_grid() check_winner() draw_marker() game_end() \
 
 import os, random, time, pygame, math, datetime,sys
-from turtle import bgcolor
+from pickle import FALSE
+
 os.system('cls')
 
 pygame.init()
@@ -23,6 +24,9 @@ WINNER_FONT = pygame.font.SysFont('comicsans', 2000)
 
 WIDTH=700 #like constant
 HEIGHT=700
+
+clock=pygame.time.Clock()
+
 colors={"white":(255,255,255),"pink":(255,0,255),"blue":(0,0,255),"limeGreen":(153,255,51),
 "RED" : (255, 0, 0),
 "GREEN" : (0, 255, 0),
@@ -608,19 +612,31 @@ colors={"white":(255,255,255),"pink":(255,0,255),"blue":(0,0,255),"limeGreen":(1
 "QUARTZ" : (217, 217, 243),
 }
 clr=colors.get("limeGreen")
-messageMenu=['Instructions', 'Settings', 'Game 1', 'Game 2', 'Scoreboard', 'Exit']
+white=colors.get("white")
+blue=colors.get("blue")
+red=colors.get("RED")
+black=colors.get("BLACK")
+messageMenu=['Play Again','Quit']
 messageSettings=["Background Colors", "Screen Size", "Sound On/Off"]
+Wintext=("the winner is")
 mainTitle="Circle eats Square Menu"
 #create dispay wind with any name y like
+
+
 screen=pygame.display.set_mode((WIDTH,HEIGHT)) 
 pygame.display.set_caption("Tic Tac Te")  #change the title of my window
 backgrnd=colors.get("pink")
 
+Bx=WIDTH//3 #creating buttonss 
+Button_again=pygame.Rect(WIDTH//4,HEIGHT//2,100,50)
+Button_quit=pygame.Rect(3*WIDTH//4,HEIGHT//2,100,50)
 #game Variable
 player=1        #change players 1 and -1
 gameOver=False  #check if game is over
 winner=0       #save winner either 1 or -1 zero means tie
 xScore=0
+mx=0
+my=0
 oScore=0
 markers=[]      #controlcells
 lineWidth=10    #thickness drawing
@@ -664,9 +680,11 @@ def checkWinner():
         #check COL 
         if sum(x)==3:
             winner=1
+            Xscore+=1
             gameOver=True
         if sum(x)==-3:
             winner=-1
+            Oscore+=1
             gameOver=True
         if markers[0][x_pos] + markers[1][x_pos] +markers[2][x_pos]==3:
             winner=1
@@ -693,23 +711,58 @@ def checkWinner():
         if tie:     #in a boolean variable you dont need ==
             gameOver=True
             winner=0
-    
+
 def gameEnd():
-    global Game, xScore, oScore
+    global xScore, oScore,mx,my,markers,gameOver
     zero_Array()
+    screen.fill(white)
     if winner==1: 
         xScore+=1
-        text="X"
+        text="X won, congrats"
         text=WINNER_FONT.render(text, 1, xClr)
     if winner==-1:
         oScore+=1
-        text="O"
+        text="O won, congrats"
         text=WINNER_FONT.render(text, 1, cirClr)
-    #create a new window
-    screen.fill(backgrnd)
-    screen.blit(text, (WIDTH//2, HEIGHT//2))
-    pygame.display.update()
-    pygame.time.delay(100)
+    screen.blit(text, (WIDTH//2.5, HEIGHT//2.5))
+    pygame.display.update
+    pygame.time.delay(1000)
+
+    #start of play again part 
+    endtext=MENU_FONT.render('do you want to play again',1,(black))
+    screen.blit(endtext,(WIDTH/2.8,HEIGHT/2.8))
+    pygame.draw.rect(screen, colors.get("blue"), Button_again)
+    pygame.draw.rect(screen, colors.get("blue"), Button_quit)
+
+    buttontxt=MENU_FONT.render("yes", 1, (black))
+    Buttontxt2=MENU_FONT.render("no", 1, (black))
+    
+    screen.blit(buttontxt,(WIDTH//4,HEIGHT//2))
+    screen.blit(Buttontxt2,(3*WIDTH//4, HEIGHT//2))
+    
+    
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                #take them to main menu 
+                print("you quit")
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mousePos = pygame.mouse.get_pos()
+                mx = mousePos[0]
+                my = mousePos[1]
+            if Button_again.collidepoint(mx,my):
+                markers = []
+                zero_Array()
+                gameOver=False 
+            if Button_quit.collidepoint(mx,my):
+                pygame.display.update()
+                pygame.time.delay(500)
+                pygame.quit()
+                sys.exit()
+            
+        
+
+    
         
     
 
@@ -735,7 +788,8 @@ while Game:
                 checkWinner()
                 print(winner)
                 if gameOver: 
+                    gameOver=False
                     gameEnd()
             
     pygame.display.update() 
-    pygame.time.delay(100)
+    clock.tick(60)
