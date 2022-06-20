@@ -965,7 +965,7 @@ def Game_1():
 
 
 def game_2():
-    screen=pygame.display.set_mode((WIDTH,HEIGHT)) 
+    display=pygame.display.set_mode((WIDTH,HEIGHT)) 
     pygame.display.set_caption("Tic Tac Te")  #change the title of my window
     backgrnd=colors.get("pink")
 
@@ -983,8 +983,8 @@ def game_2():
     def draw_grid():
         lineClr=colors.get("white")
         for x in range(1,3):
-            pygame.draw.line(screen,lineClr,(0,HEIGHT//3*x),(WIDTH,HEIGHT//3*x),lineWidth)  #Hztal line
-            pygame.draw.line(screen,lineClr,(WIDTH//3*x, 0),(WIDTH//3*x,HEIGHT),lineWidth)  #Vert line
+            pygame.draw.line(display,lineClr,(0,HEIGHT//3*x),(WIDTH,HEIGHT//3*x),lineWidth)  #Hztal line
+            pygame.draw.line(display,lineClr,(WIDTH//3*x, 0),(WIDTH//3*x,HEIGHT),lineWidth)  #Vert line
         pygame.time.delay(100)
 
     def draw_Markers():
@@ -994,11 +994,11 @@ def game_2():
             for y in x:  #each elem fthe rw
                 if y ==1:
                     
-                    pygame.draw.line(screen,xClr,(xValue * WIDTH//3 + 15, yValue * HEIGHT//3 + 15), (xValue * WIDTH//3 + WIDTH//3-15, yValue * WIDTH//3 + WIDTH//3-15),lineWidth)
-                    pygame.draw.line(screen, xClr,(xValue*WIDTH//3 +WIDTH//3-15, yValue*HEIGHT//3+15),(xValue *WIDTH//3+15,yValue*HEIGHT//3+HEIGHT//3-15),lineWidth)
+                    pygame.draw.line(display,xClr,(xValue * WIDTH//3 + 15, yValue * HEIGHT//3 + 15), (xValue * WIDTH//3 + WIDTH//3-15, yValue * WIDTH//3 + WIDTH//3-15),lineWidth)
+                    pygame.draw.line(display, xClr,(xValue*WIDTH//3 +WIDTH//3-15, yValue*HEIGHT//3+15),(xValue *WIDTH//3+15,yValue*HEIGHT//3+HEIGHT//3-15),lineWidth)
                 if y==-1:
                     
-                    pygame.draw.circle(screen,cirClr,(xValue*WIDTH//3+WIDTH//6,yValue*HEIGHT//3 +HEIGHT//6),WIDTH//6-15, lineWidth)
+                    pygame.draw.circle(display,cirClr,(xValue*WIDTH//3+WIDTH//6,yValue*HEIGHT//3 +HEIGHT//6),WIDTH//6-15, lineWidth)
                 yValue +=1
             xValue +=1
         pygame.display.update() 
@@ -1044,7 +1044,7 @@ def game_2():
     def gameEnd():
         global xScore, oScore,mx,my,markers,gameOver
         zero_Array()
-        screen.fill(white)
+        display.fill(white)
         if winner==1: 
             xScore+=1
             text="X won, congrats"
@@ -1053,21 +1053,21 @@ def game_2():
             oScore+=1
             text="O won, congrats"
             text=WINNER_FONT.render(text, 1, cirClr)
-        screen.blit(text, (WIDTH//2.5, HEIGHT//2.5))
+        display.blit(text, (WIDTH//2.5, HEIGHT//2.5))
         pygame.display.update
         pygame.time.delay(1000)
 
         #start of play again part 
         endtext=MENU_FONT.render('do you want to play again',1,(black))
-        screen.blit(endtext,(WIDTH/2.8,HEIGHT/2.8))
-        pygame.draw.rect(screen, colors.get("blue"), Button_again)
-        pygame.draw.rect(screen, colors.get("blue"), Button_quit)
+        display.blit(endtext,(WIDTH/2.8,HEIGHT/2.8))
+        pygame.draw.rect(display, colors.get("blue"), Button_again)
+        pygame.draw.rect(display, colors.get("blue"), Button_quit)
 
         buttontxt=MENU_FONT.render("yes", 1, (black))
         Buttontxt2=MENU_FONT.render("no", 1, (black))
         
-        screen.blit(buttontxt,(WIDTH//4,HEIGHT//2))
-        screen.blit(Buttontxt2,(3*WIDTH//4, HEIGHT//2))
+        display.blit(buttontxt,(WIDTH//4,HEIGHT//2))
+        display.blit(Buttontxt2,(3*WIDTH//4, HEIGHT//2))
         
         
         while True:
@@ -1092,7 +1092,7 @@ def game_2():
 
     zero_Array()
     while Game:
-        screen.fill(backgrnd)
+        dsiplay.fill(backgrnd)
         draw_grid()
         draw_Markers()
         for event in pygame.event.get():
