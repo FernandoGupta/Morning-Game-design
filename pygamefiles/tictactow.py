@@ -674,17 +674,17 @@ def draw_Markers():
         xValue +=1
     pygame.display.update() 
 def checkWinner():
-    global gameOver, winner 
+    global gameOver, winner ,xScore, oScore
     x_pos=0
     for x in markers:
         #check COL 
         if sum(x)==3:
             winner=1
-            Xscore+=1
+            xScore+=1
             gameOver=True
         if sum(x)==-3:
             winner=-1
-            Oscore+=1
+            oScore+=1
             gameOver=True
         if markers[0][x_pos] + markers[1][x_pos] +markers[2][x_pos]==3:
             winner=1
