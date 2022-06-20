@@ -6,7 +6,7 @@ import os
 
 WIDTH = 700
 HEIGHT = 700
-
+Bx=WIDTH//3
 name_box = pygame.Rect(Bx,250,WIDTH//4,40)
 
 TITLE_FONT = pygame.font.SysFont('comicsans', WIDTH//20)
