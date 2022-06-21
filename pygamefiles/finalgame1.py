@@ -18,47 +18,84 @@ char = pygame.image.load('pygamefiles\spritewrk\standing.png')
 bg1=pygame.image.load("pygamefiles\\forestbg.png")
 bg1=pygame.transform.scale(bg1, (700, 700))
 platform1=pygame.image.load("pygamefiles\\basicplatform1.png")
-platform1=pygame.transform.scale(platform1,(80,80))
+platform2=pygame.image.load("pygamefiles\\basicplatform1.png")
+platform3=pygame.image.load("pygamefiles\\basicplatform1.png")
+platform4=pygame.image.load("pygamefiles\\basicplatform1.png")
+platform5=pygame.image.load("pygamefiles\\basicplatform1.png")
+platform6=pygame.image.load("pygamefiles\\basicplatform1.png")
+platform7=pygame.image.load("pygamefiles\\basicplatform1.png")
+platform8=pygame.image.load("pygamefiles\\basicplatform1.png")
+platform1=pygame.transform.scale(platform1,(100,100))
+platform2=pygame.transform.scale(platform1,(100,100))
+platform3=pygame.transform.scale(platform1,(100,100))
+platform4=pygame.transform.scale(platform1,(100,100))
+platform5=pygame.transform.scale(platform1,(100,100))
+platform6=pygame.transform.scale(platform1,(100,100))
+platform7=pygame.transform.scale(platform1,(100,100))
+platform8=pygame.transform.scale(platform1,(100,100))
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
+
+hitboxrec=pygame.Rect(50,600,40,64)
+platformrec=pygame.Rect(105,570,80,20)
+platformrec2=pygame.Rect(205,457,80,20)
+
 pygame.display.set_caption("finalgame1") 
 
 #going to start with code for game here
+class player(object):
+    def __init__(self,x,y,width,height):
+        self.x=x
+        self.y=y
+        self.width=width
+        self.height=height
+        self.vel=5
+        self.isJump=False
+        self.jumpCount=10
+        self.left=False
+        self.right=False
+        self.walkCount=0
+        self.hitbox= (self.x+17, self.y+11,29,52)
 
-x = 50
-y = 600
-width = 64
-height = 64
-vel = 2
-isJump = False
-jumpCount = 7
-left = False
-right = False
-walkCount = 0
+    def draw(self,screen):
+        if self.walkCount + 1 >=27:
+            self.walkCount=0
+
+        if self.left:
+            screen.blit(walkLeft[self.walkCount//3], (self.x,self.y))
+            self.walkCount += 1
+        elif self.right:
+            screen.blit(walkRight[self.walkCount//3], (self.x,self.y))
+            self.walkCount +=1 
+        else:
+            screen.blit(char, (self.x,self.y))
+        self.hitbox= (self.x+17, self.y+11,29,52)
+        pygame.draw.rect(screen,(255,0,0),self.hitbox)
+    
 
 def redrawGameWindow():
     global walkCount 
  
     screen.blit(bg1,(0,0))
     screen.blit(platform1,(350,350))
-    if walkCount + 1 >=27:
-        walkCount=0
-
-    if left:
-        screen.blit(walkLeft[walkCount//3], (x,y))
-        walkCount += 1
-    elif right:
-        screen.blit(walkRight[walkCount//3], (x,y))
-        walkCount +=1
-    else:
-        screen.blit(char, (x,y))
+    screen.blit(platform2,(100,550))
+    screen.blit(platform3,(200,450))
+    screen.blit(platform4,(100,350))
+    screen.blit(platform5,(450,250))
+    screen.blit(platform6,(600,150))
+    screen.blit(platform7,(450,100))
+    screen.blit(platform8,(300,100))
+    man.draw(screen)
+    pygame.draw.rect(screen,(0,0,0),platformrec)
+    pygame.draw.rect(screen,(0,0,0),platformrec2)
     
     pygame.display.update()
     
 
 #mainloop
+man=player(300,410,64,64)
 run = True
 while run:
-    
+    clock.tick(27)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -66,33 +103,44 @@ while run:
 
     keys = pygame.key.get_pressed()
 
-    if keys[pygame.K_LEFT] and x > vel:
-        x -= vel
-        left = True
-        right = False
-    elif keys[pygame.K_RIGHT] and x < 700 - width - vel:
-        x += vel
-        right = True
-        left = False
+    if keys[pygame.K_LEFT] and man.x > man.vel:
+        man.x -= man.vel
+        man.left = True
+        man.right = False
+        hitboxrec.x-=man.vel
+    if keys[pygame.K_RIGHT] and man.x < 700 - man.width - man.vel:
+        man.x += man.vel
+        man.right = True
+        man.left = False
+        hitboxrec.x+=man.vel
+    
     else:
-        right = False
-        left = False
-        walkCount = 0
-        
-    if not(isJump):
+        man.right = False
+        man.left = False
+        man.walkCount = 0
+    
+    if not(man.isJump):
         if keys[pygame.K_SPACE]:
-            isJump = True
-            right = False
-            left = False
-            walkCount = 0
+            man.isJump = True
+            man.right = False
+            man.left = False
+            man.walkCount = 0
     else:
-        if jumpCount >= -7:
+        if man.jumpCount >= -12:
             neg = 1
-            if jumpCount < 0:
+            if man.jumpCount < 0:
                 neg = -1
-            y -= (jumpCount ** 2) * 0.5 * neg
-            jumpCount -= 1
+            man.y -= (man.jumpCount ** 2) * 0.5 * neg
+            hitboxrec.y-=(man.jumpCount ** 2) * 0.5 * neg
+            man.jumpCount -= 1
         else:
-            isJump = False
-            jumpCount = 7
+            man.isJump = False
+            man.jumpCount = 12
+    if hitboxrec.colliderect(platformrec):
+       print("9")
+            
+   
+            
+        
+
     redrawGameWindow()
