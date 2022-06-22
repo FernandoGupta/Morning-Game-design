@@ -3,6 +3,8 @@
 #functions: for menue def game_1() then def game_1_end() to bring u to an end screen 
 
 
+
+from platform import platform
 import pygame, time,os,random, math, sys,datetime
 pygame.init()
 
@@ -40,7 +42,23 @@ platformrec=pygame.Rect(105,570,80,20)
 platformrec2=pygame.Rect(205,457,80,20)
 
 pygame.display.set_caption("finalgame1") 
-
+def redrawGameWindow():
+    global walkCount 
+ 
+    screen.blit(bg1,(0,0))
+    screen.blit(platform1,(350,350))
+    
+    screen.blit(platform3,(200,450))
+    screen.blit(platform4,(100,350))
+    screen.blit(platform5,(450,250))
+    screen.blit(platform6,(600,150))
+    screen.blit(platform7,(450,100))
+    screen.blit(platform8,(300,100))
+    man.draw(screen)
+    pygame.draw.rect(screen,(0,0,0),platformrec)
+    pygame.draw.rect(screen,(0,0,0),platformrec2)
+    
+    pygame.display.update()
 #going to start with code for game here
 class player(object):
     def __init__(self,x,y,width,height):
@@ -69,30 +87,22 @@ class player(object):
         else:
             screen.blit(char, (self.x,self.y))
         self.hitbox= (self.x+17, self.y+11,29,52)
-        pygame.draw.rect(screen,(255,0,0),self.hitbox)
+        pygame.draw.rect(screen,(255,0,0),self.hitbox,2)
     
+    def hitbox(self):
+        if platformrec.colliderect(self.hitbox):
+            print()
 
-def redrawGameWindow():
-    global walkCount 
- 
-    screen.blit(bg1,(0,0))
-    screen.blit(platform1,(350,350))
-    screen.blit(platform2,(100,550))
-    screen.blit(platform3,(200,450))
-    screen.blit(platform4,(100,350))
-    screen.blit(platform5,(450,250))
-    screen.blit(platform6,(600,150))
-    screen.blit(platform7,(450,100))
-    screen.blit(platform8,(300,100))
-    man.draw(screen)
-    pygame.draw.rect(screen,(0,0,0),platformrec)
-    pygame.draw.rect(screen,(0,0,0),platformrec2)
-    
-    pygame.display.update()
+class platforms(object):
+    def __init__(self,data):
+       platforming=pygame.image.load
+
+
     
 
 #mainloop
-man=player(300,410,64,64)
+man=player(100,600,64,64)
+plat1= platform(100,200,10,10)
 run = True
 while run:
     clock.tick(27)
@@ -107,7 +117,7 @@ while run:
         man.x -= man.vel
         man.left = True
         man.right = False
-        hitboxrec.x-=man.vel
+        
     if keys[pygame.K_RIGHT] and man.x < 700 - man.width - man.vel:
         man.x += man.vel
         man.right = True
@@ -126,18 +136,17 @@ while run:
             man.left = False
             man.walkCount = 0
     else:
-        if man.jumpCount >= -12:
+        if man.jumpCount >= -10:
             neg = 1
             if man.jumpCount < 0:
                 neg = -1
             man.y -= (man.jumpCount ** 2) * 0.5 * neg
-            hitboxrec.y-=(man.jumpCount ** 2) * 0.5 * neg
             man.jumpCount -= 1
         else:
             man.isJump = False
-            man.jumpCount = 12
-    if hitboxrec.colliderect(platformrec):
-       print("9")
+            man.jumpCount = 10
+    if platformrec.colliderect(man.hitbox):
+       isJump=False
             
    
             
