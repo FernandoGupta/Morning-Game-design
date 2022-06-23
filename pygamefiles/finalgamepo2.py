@@ -13,6 +13,7 @@ fps = 60
 screen_width = 1000
 screen_height = 800
 
+
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption('Platformer')
 
@@ -20,7 +21,13 @@ pygame.display.set_caption('Platformer')
 tile_size = 50
 tilesize2=100
 tilesize3=30
+trophysize=100
+coinhit=0
+trophyhit=0
 
+coin_group = pygame.sprite.Group()
+
+trophy_group=pygame.sprite.Group()
 #load images
 
 bg_img = pygame.image.load('pygamefiles\\forestbg.png')
@@ -105,7 +112,21 @@ class Player():
                 elif self.vel_y >= 0:
                     dy = tile[1].top - self.rect.bottom
                     self.vel_y = 0
+        #check for coin and trophy collison 
+        if pygame.sprite.spritecollide(self,coin_group,False):
+            coinhit = 1
+            if coinhit == 1:
+                myFile = open("pygamefiles\coingrab.txt", 'w')
+                myFile.write("you got 1 coin")
+                myFile.close()
+        # if pygame.sprite.spritecollide(self,trophyhit,False):
+        #     trophyhit=1
+        #     if trophyhit==1:
+                
+        
 
+            
+            
 
 
     #player coord update
@@ -122,7 +143,6 @@ class Player():
 
 
 
-
 class Game():
     def __init__(self, data):
         self.tile_list = []
@@ -130,6 +150,7 @@ class Game():
         #load images
         dirt_img = pygame.image.load('pygamefiles\dirt.png')
         grass_img = pygame.image.load('pygamefiles\\basicplatform1.png')
+        
 
         row_count = 0
         for row in data:
@@ -147,8 +168,14 @@ class Game():
                     img_rect = img.get_rect()
                     img_rect.x = col_count * tile_size
                     img_rect.y = row_count * tile_size
-                    tile = (img, img_rect)
+                    tile = (img, img_rect) 
                     self.tile_list.append(tile)
+                if tile == 9:
+                    coin = Coin(col_count*tile_size,row_count*tile_size+15)
+                    coin_group.add(coin)
+                if tile == 6:
+                    trophy=Trophy(col_count*tile_size,row_count*tile_size-20)
+                    trophy_group.add(trophy)
                 col_count += 1
             row_count += 1
 
@@ -158,34 +185,55 @@ class Game():
             pygame.draw.rect(screen, (255, 255, 255), tile[1], 2)
 
 
+class Coin(pygame.sprite.Sprite):
+    def __init__(self,x,y):
+        pygame.sprite.Sprite.__init__(self)
+        img= pygame.image.load('pygamefiles\coin.png')
+        self.image=pygame.transform.scale(img,(tile_size//2,tile_size//2))
+        self.rect = self.image.get_rect()
+        self.rect.x= x
+        self.rect.y= y 
+
+
+class Trophy(pygame.sprite.Sprite):
+    def __init__(self,x,y):
+        pygame.sprite.Sprite.__init__(self)
+        img= pygame.image.load('pygamefiles\\trophy.png')
+        self.image=pygame.transform.scale(img,(trophysize,trophysize))
+        self.rect = self.image.get_rect()
+        self.rect.x= x
+        self.rect.y= y 
+    
+    
+
+
 
 world_data = [
-[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
-[0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
-[0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0], 
-[0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 2, 2, 0], 
+[0, 0, 0, 0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+[0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+[0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0], 
+[0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 2, 2, 0], 
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 7, 0, 5, 0, 0, 0, 0], 
 [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0], 
 [0, 7, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
 [0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 7, 0, 0, 0, 0, 0], 
 [0, 0, 2, 0, 0, 7, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
-[0, 0, 0, 2, 0, 0, 4, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0], 
+[0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0], 
 [0, 0, 0, 0, 2, 2, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0], 
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 7, 0, 0, 0, 0, 0, 2, 0], 
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 
-[0, 0, 0, 0, 0, 0, 2, 2, 2, 6, 6, 6, 6, 6, 1, 1, 1, 1, 1, 1], 
-[0, 0, 0, 0, 0, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 
-[0, 0, 0, 0, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 
-[0, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 ]
+
 
 
 
 player = Player(100, screen_height - 130)
 world = Game(world_data)
+
+
 
 run = True
 while run:
@@ -196,7 +244,8 @@ while run:
     
 
     world.draw()
-
+    coin_group.draw(screen)
+    trophy_group.draw(screen)
     player.update()
 
     for event in pygame.event.get():
