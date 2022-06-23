@@ -16,11 +16,18 @@ pygame.display.set_caption('Platformer')
 tile_size = 50
 tilesize2=100
 tilesize3=30
+trophysize=100
+coinhit=0
+trophyhit=0
+
+coin_group = pygame.sprite.Group()
+
+trophy_group=pygame.sprite.Group()
 
 #load images
 
-bg_img = pygame.image.load('pygamefiles\lavabg.png')
-bg_img=pygame.transform.scale(bg_img, (1000, 800))
+bg_img2 = pygame.image.load('pygamefiles\lavabg.png')
+bg_img2=pygame.transform.scale(bg_img2, (1000, 800))
 #
 
 class Player():
@@ -45,7 +52,7 @@ class Player():
         self.jumped = False
         self.direction = 0
 
-    def update(self):
+    def update(self,trophyhit):
         dx = 0
         dy = 0
         walk_cooldown = 5
@@ -107,7 +114,16 @@ class Player():
                 elif self.vel_y >= 0:
                     dy = tile[1].top - self.rect.bottom
                     self.vel_y = 0
-
+        if pygame.sprite.spritecollide(self,coin_group,False):
+            coinhit = 1
+            if coinhit == 1:
+                myFile = open("pygamefiles\coingrab2.txt", 'w')
+                myFile.write("you got 2 coin")
+                myFile.close()
+        if pygame.sprite.spritecollide(self,trophy_group,False):
+            trophyhit=1
+            if trophyhit==1:
+                print(1)
 
 
 
@@ -152,6 +168,12 @@ class Game():
                     img_rect.y = row_count * tile_size
                     tile = (img, img_rect)
                     self.tile_list.append(tile)
+                if tile == 9:
+                    coin = Coin(col_count*tile_size,row_count*tile_size+15)
+                    coin_group.add(coin)
+                if tile == 6:
+                    trophy=Trophy(col_count*tile_size,row_count*tile_size-20)
+                    trophy_group.add(trophy)
                 col_count += 1
             row_count += 1
 
@@ -159,6 +181,26 @@ class Game():
         for tile in self.tile_list:
             screen.blit(tile[0], tile[1])
             pygame.draw.rect(screen, (255, 255, 255), tile[1], 2)
+
+class Coin(pygame.sprite.Sprite):
+    def __init__(self,x,y):
+        pygame.sprite.Sprite.__init__(self)
+        img= pygame.image.load('pygamefiles\coin.png')
+        self.image=pygame.transform.scale(img,(tile_size//2,tile_size//2))
+        self.rect = self.image.get_rect()
+        self.rect.x= x
+        self.rect.y= y 
+
+
+class Trophy(pygame.sprite.Sprite):
+    def __init__(self,x,y):
+        pygame.sprite.Sprite.__init__(self)
+        img= pygame.image.load('pygamefiles\\trophy.png')
+        self.image=pygame.transform.scale(img,(trophysize,trophysize))
+        self.rect = self.image.get_rect()
+        self.rect.x= x
+        self.rect.y= y 
+    
 
 
 
@@ -179,10 +221,6 @@ world_data = [
 [2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 7, 0, 0, 0, 0, 0, 0, 0], 
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 
-[0, 0, 0, 0, 0, 0, 2, 2, 2, 6, 6, 6, 6, 6, 1, 1, 1, 1, 1, 1], 
-[0, 0, 0, 0, 0, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 
-[0, 0, 0, 0, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 
-[0, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 ]
 
 
@@ -195,12 +233,13 @@ while run:
 
     clock.tick(fps)
 
-    screen.blit(bg_img, (0, 0))
+    screen.blit(bg_img2, (0, 0))
     
 
     world.draw()
-
-    player.update()
+    coin_group.draw(screen)
+    trophy_group.draw(screen)
+    player.update(screen)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
