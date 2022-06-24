@@ -53,8 +53,9 @@ Button_instruct=pygame.Rect(Bx,150,WIDTH//4,40)
 Button_settings=pygame.Rect(Bx,200,WIDTH//4,40)
 Button_Game1=pygame.Rect(Bx,250,WIDTH//4,40)
 Button_Game2=pygame.Rect(Bx,300,WIDTH//4,40)
-Button_score=pygame.Rect(Bx,350,WIDTH//4,40)
-Button_exit=pygame.Rect(Bx,400,WIDTH//4,40)
+Button_Game3=pygame.Rect(Bx,350,WIDTH//4,40)
+Button_score=pygame.Rect(Bx,400,WIDTH//4,40)
+Button_exit=pygame.Rect(Bx,450,WIDTH//4,40)
 Button_colors=pygame.Rect(Bx,150,WIDTH//4,40)
 Button_size=pygame.Rect(Bx,200,WIDTH//4,40)
 Button_sound=pygame.Rect(Bx,300,WIDTH//4,40)
@@ -68,7 +69,7 @@ Button_quit=pygame.Rect(3*WIDTH//4,HEIGHT//2,100,50)
 #colors
 colors = {"white":(255,255,255),"grey":(96,96,96), "red":(255,0,0), "green":(0,255,0), "blue":(0,0,255), "pink":(204,0,204), "orange":(255,128,0), "yellow":(255,255,0), "purple":(127,0,255)}
 clr = colors.get("white")
-messageMenu=['instructions','settings','game 1','game 2','scoreboard','exit']
+messageMenu=['instructions','settings','game 1','game 2','game 3','scoreboard','exit']
 messageSettings=["Background Color","Screen Size bigger","Screen Size smaller","sound on/off"]
 titleMain="platformer menu"
 
@@ -799,6 +800,8 @@ def Menu(Title, message,MENU):
                     Game_1()
                 if Button_Game2.collidepoint((mx,my)):
                     Game_2()
+                if Button_Game3.collidepoint((mx,my)):
+                    Game_3()
                 if Button_score.collidepoint((mx,my)):
                     scoreInt("ScoreBoard", "pygamefiles\scoreboard.txt")
                 if Button_exit.collidepoint((mx,my)):
@@ -828,9 +831,12 @@ def scoreInt(titleF,fileN):
     Title = TITLE_FONT.render(titleF, 1, colors.get("blue"))
     xd = WIDTH//2 - (Title.get_width()//2)
     screen.blit(Title, (xd, 50))
+    text1 = MENU_FONT.render("Yes", 1, colors.get("blue"))
+    text2 = MENU_FONT.render("No", 1, colors.get("blue"))
 
-
-    #
+    #creating button options
+    Button_1 = pygame.Rect(200, 400, 100, 50)
+    Button_2 = pygame.Rect(400, 400, 100, 50)
     # pygame.draw.rect(screen, colors.get("limeGreen"), Button_1)
     # pygame.draw.rect(screen, colors.get("limeGreen"), Button_2)
 
@@ -849,6 +855,9 @@ def scoreInt(titleF,fileN):
 
     #renderig fonts to the screen
 
+    screen.blit(text1, (225, 410))
+    screen.blit(text2, (425, 410))
+
     pygame.display.update()
     while True:
         for event in pygame.event.get():
@@ -859,6 +868,10 @@ def scoreInt(titleF,fileN):
                 mousePos = pygame.mouse.get_pos()
                 mx = mousePos[0]
                 my = mousePos[1]
+                if Button_1.collidepoint((mx, my)):
+                    Menu(titleMain,messageMenu, True) 
+                # if Button_2.collidepoint((mx, my)):
+                #     return False
                
 
 def settings():
@@ -899,7 +912,7 @@ def settings():
            
 def Game_1():
     
-    class Player(): #from techwithtim video and with new code from Coding with Russ, this is mostly riped directly 
+    class Player(): #from techwithtim video and with new code from Coding with Russ, this is mostly riped directly,https://www.youtube.com/watch?v=W_JRd3ntyBg&list=PLjcN1EyupaQnHM1I9SmiXfbT6aG4ezUvu&index=2 https://www.youtube.com/watch?v=UdsNBIzsmlI&list=PLzMcBGfZo4-lp3jAExUCewBfMx3UZFkh5&index=3, referance video 
         def __init__(self, x, y):
             self.images_right = []
             self.images_left = []
@@ -983,14 +996,18 @@ def Game_1():
             if pygame.sprite.spritecollide(self,coin_group,False):
                 coinhit += 1
                 if coinhit == 1:
-                    myFile = open("pygamefiles\coingrab.txt", 'w')
-                    myFile.write("you got 1 coin")
+                    myFile = open("pygamefiles\coingrab.txt", 'a')
+                    myFile.write("you got 1 coin 6/24/2022")
                     myFile.close()
                     
             if pygame.sprite.spritecollide(self,trophy_group,False):
                 trophyhit=1
                 if trophyhit==1: #and coinhit ==1:
                     trophy1()
+                if trophyhit==1:
+                    myFile = open("pygamefiles\scoreboard.txt", 'a')
+                    myFile.write("you got 1 coin 6/24/2022")
+                    myFile.close()
                # if trophyhit==1 and coinhit==0:
                  #   trophy0()
                     
@@ -1014,7 +1031,7 @@ def Game_1():
 
 
 
-    class Game():# this class from code with rus and my own combo 
+    class Game():# this class from code with rus and my own combo https://www.youtube.com/watch?v=Ongc4EVqRjo&list=PLjcN1EyupaQnHM1I9SmiXfbT6aG4ezUvu video where this is from 
         def __init__(self, data):
             self.tile_list = []
 
@@ -1083,8 +1100,8 @@ def Game_1():
     [0, 0, 0, 0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
     [0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
     [0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0], 
-    [0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 2, 2, 0], 
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 7, 0, 5, 0, 0, 0, 0], 
+    [0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 2, 2, 2, 0], 
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 0, 7, 0, 5, 0, 0, 0, 0], 
     [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0], 
     [0, 7, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
     [0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
@@ -1215,13 +1232,17 @@ def Game_2(): #this is level 2, pretty much copy of same code from before with n
             if pygame.sprite.spritecollide(self,coin_group,False):
                 coinhit2 += 1
                 if coinhit2 == 1:
-                    myFile = open("pygamefiles\coingrab2.txt", 'w')
-                    myFile.write("you got 2 coins")
+                    myFile = open("pygamefiles\coingrab.txt", 'w')
+                    myFile.write("you got 2 coins 6/24/2022")
                     myFile.close()
             if pygame.sprite.spritecollide(self,trophy_group,False):
                 trophyhit2=1
                 if trophyhit2==1:
                     trophy2()
+                if trophyhit==1:
+                    myFile = open("pygamefiles\scoreboard.txt", 'a')
+                    myFile.write("you got 2 coins 6/24/2022")
+                    myFile.close()
                    
                # if trophyhit2==1 and coinhit==2:
                   #  print("cat")
@@ -1350,7 +1371,234 @@ def Game_2(): #this is level 2, pretty much copy of same code from before with n
         pygame.display.update()
 
     pygame.quit()
+    
+def Game_3(): #this is level 2, pretty much copy of same code from before with new image , and new tile placement, so the same comments as before, just did not repeat them on all the different sections 
+    class Player():
+        def __init__(self, x, y):
+            self.images_right = []
+            self.images_left = []
+            self.index = 0
+            self.counter = 0
+            for num in range(1, 5):
+                img_right = pygame.image.load(f'pygamefiles\spritewrk\R{num}.png')
+                img_right = pygame.transform.scale(img_right, (50   , 80))
+                img_left = pygame.transform.flip(img_right, True, False)
+                self.images_right.append(img_right)
+                self.images_left.append(img_left)
+            self.image = self.images_right[self.index]
+            self.rect = self.image.get_rect()
+            self.rect.x = x
+            self.rect.y = y
+            self.width = self.image.get_width()
+            self.height = self.image.get_height()
+            self.vel_y = 0
+            self.jumped = False
+            self.direction = 0
 
+        def update(self,trophyhit2,coinhit2):
+            dx = 0
+            dy = 0
+            walk_cooldown = 5
+
+            #get keypresses
+            key = pygame.key.get_pressed()
+            if key[pygame.K_SPACE] and self.jumped == False:
+                self.vel_y = -15
+                self.jumped = True
+            if key[pygame.K_SPACE] == False:
+                self.jumped = False
+            if key[pygame.K_LEFT]:
+                dx -= 5
+                self.counter += 1
+                self.direction = -1
+            if key[pygame.K_RIGHT]:
+                dx += 5
+                self.counter += 1
+                self.direction = 1
+            if key[pygame.K_LEFT] == False and key[pygame.K_RIGHT] == False:
+                self.counter = 0
+                self.index = 0
+                if self.direction == 1:
+                    self.image = self.images_right[self.index]
+                if self.direction == -1:
+                    self.image = self.images_left[self.index]
+
+
+            #handle animation
+            if self.counter > walk_cooldown:
+                self.counter = 0    
+                self.index += 1
+                if self.index >= len(self.images_right):
+                    self.index = 0
+                if self.direction == 1:
+                    self.image = self.images_right[self.index]
+                if self.direction == -1:
+                    self.image = self.images_left[self.index]
+
+
+            #add gravity
+            self.vel_y += 1
+            if self.vel_y > 10:
+                self.vel_y = 10
+            dy += self.vel_y
+
+            #check for collision
+            for tile in world.tile_list:
+                #check for collision in x direction
+                if tile[1].colliderect(self.rect.x + dx, self.rect.y, self.width, self.height):
+                    dx = 0
+                #check for collision in y direction
+                if tile[1].colliderect(self.rect.x, self.rect.y + dy, self.width, self.height):
+                    #check if below the ground i.e. jumping
+                    if self.vel_y < 0:
+                        dy = tile[1].bottom - self.rect.top
+                        self.vel_y = 0
+                    #check if above the ground i.e. falling
+                    elif self.vel_y >= 0:
+                        dy = tile[1].top - self.rect.bottom
+                        self.vel_y = 0
+            if pygame.sprite.spritecollide(self,coin_group,False):
+                coinhit2 += 1
+                if coinhit2 == 1:
+                    myFile = open("pygamefiles\coingrab.txt", 'w')
+                    myFile.write("you got 2 coins 6/24/2022")
+                    myFile.close()
+            if pygame.sprite.spritecollide(self,trophy_group,False):
+                trophyhit2=1
+                if trophyhit2==1:
+                    trophy2()
+                if trophyhit==1:
+                    myFile = open("pygamefiles\scoreboard.txt", 'a')
+                    myFile.write("you got 2 coins 6/24/2022")
+                    myFile.close()
+                   
+               # if trophyhit2==1 and coinhit==2:
+                  #  print("cat")
+                   # trophy2()
+
+
+
+            #update player coordinates
+            self.rect.x += dx
+            self.rect.y += dy
+
+            if self.rect.bottom > screen_height:
+                self.rect.bottom = screen_height
+                dy = 0
+
+            #draw player onto screen
+            screen.blit(self.image, self.rect)
+           # pygame.draw.rect(screen, (255, 255, 255), self.rect, 2)
+
+
+
+
+    class Game():
+        def __init__(self, data):
+            self.tile_list = []
+
+            #load images
+            dirt_img = pygame.image.load('pygamefiles\\rocktile.png')
+            grass_img = pygame.image.load('pygamefiles\lavatile.png')
+
+            row_count = 0
+            for row in data:
+                col_count = 0
+                for tile in row:
+                    if tile == 1:
+                        img = pygame.transform.scale(dirt_img, (tile_size, tile_size))
+                        img_rect = img.get_rect()
+                        img_rect.x = col_count * tile_size
+                        img_rect.y = row_count * tile_size
+                        tile = (img, img_rect)
+                        self.tile_list.append(tile)
+                    if tile == 2:
+                        img = pygame.transform.scale(grass_img, (tile_size, tile_size))
+                        img_rect = img.get_rect()
+                        img_rect.x = col_count * tile_size
+                        img_rect.y = row_count * tile_size
+                        tile = (img, img_rect)
+                        self.tile_list.append(tile)
+                    if tile == 9:
+                        coin = Coin(col_count*tile_size,row_count*tile_size+15)
+                        coin_group.add(coin)
+                    if tile == 6:
+                        trophy=Trophy(col_count*tile_size-21,row_count*tile_size-21)
+                        trophy_group.add(trophy)
+                    col_count += 1
+                row_count += 1
+
+        def draw(self):
+            for tile in self.tile_list:
+                screen.blit(tile[0], tile[1])
+               # pygame.draw.rect(screen, (255, 255, 255), tile[1], 2)
+
+    class Coin(pygame.sprite.Sprite):
+        def __init__(self,x,y):
+            pygame.sprite.Sprite.__init__(self)
+            img= pygame.image.load('pygamefiles\coin.png')
+            self.image=pygame.transform.scale(img,(tile_size//2,tile_size//2))
+            self.rect = self.image.get_rect()
+            self.rect.x= x
+            self.rect.y= y 
+
+
+    class Trophy(pygame.sprite.Sprite):
+        def __init__(self,x,y):
+            pygame.sprite.Sprite.__init__(self)
+            img= pygame.image.load('pygamefiles\\trophy.png')
+            self.image=pygame.transform.scale(img,(trophysize,trophysize))
+            self.rect = self.image.get_rect()
+            self.rect.x= x
+            self.rect.y= y 
+        
+
+
+
+    world_data = [
+    [0, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+    [0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+    [0, 0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0], 
+    [2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0], 
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 5, 0, 0, 0, 0], 
+    [0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+    [0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+    [0, 0, 0, 0, 2, 0, 0, 0, 0, 2, 0, 9, 0, 0, 2, 0, 2, 0, 0, 2], 
+    [0, 0, 0, 0, 0, 2, 2, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 2, 0], 
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+    [0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0], 
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0], 
+    [9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0], 
+    [2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 7, 0, 0, 0, 0, 0, 0, 0], 
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 
+    ]
+
+
+
+    player = Player(100, screen_height - 130)
+    world = Game(world_data)
+
+    run = True
+    while run:
+
+        clock.tick(fps)
+
+        screen.blit(bg_img2, (0, 0))
+        
+
+        world.draw()
+        coin_group.draw(screen)
+        trophy_group.draw(screen)
+        player.update(screen,coinhit)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+
+        pygame.display.update()
+
+    pygame.quit()
 def trophy1(): #this is pretty much the score function from earlyer in the menu, just reused with new files and words to show the coins you got 
     #fills screen with white
     screen.fill(colors.get("white"))
@@ -1426,8 +1674,7 @@ def trophy2(): #this is pretty much the score function from earlyer in the menu,
             if event.type==pygame.QUIT:
                 Menu(titleMain,messageMenu, True)
                 print("You quit")
-                myFile= open('coingrab.txt', 'w')
-                myFile.truncate(0)
+                
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mousePos = pygame.mouse.get_pos()
                 mx = mousePos[0]
