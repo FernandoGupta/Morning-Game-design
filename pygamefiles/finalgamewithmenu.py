@@ -910,9 +910,11 @@ def settings():
                 # if Button_2.collidepoint((mx, my)):
                 #     return False
            
-def Game_1():
+def Game_1():#https://www.youtube.com/watch?v=ZDa-Z5JzLYM  https://www.youtube.com/watch?v=BJ-VvGyQxho This is one of the videos i used to learn about classes 
+
+
     
-    class Player(): #from techwithtim video and with new code from Coding with Russ, this is mostly riped directly,https://www.youtube.com/watch?v=W_JRd3ntyBg&list=PLjcN1EyupaQnHM1I9SmiXfbT6aG4ezUvu&index=2 https://www.youtube.com/watch?v=UdsNBIzsmlI&list=PLzMcBGfZo4-lp3jAExUCewBfMx3UZFkh5&index=3, referance video 
+    class Player(): #from techwithtim video and with new code from Coding with Russ, this is mostly riped directly,https://www.youtube.com/watch?v=1aGuhUFwvXA&list=PLzMcBGfZo4-lp3jAExUCewBfMx3UZFkh5&index=7,https://www.youtube.com/watch?v=Ongc4EVqRjo&list=PLjcN1EyupaQnHM1I9SmiXfbT6aG4ezUvu,https://www.youtube.com/watch?v=UdsNBIzsmlI&list=PLzMcBGfZo4-lp3jAExUCewBfMx3UZFkh5&index=3 
         def __init__(self, x, y):
             self.images_right = []
             self.images_left = []
