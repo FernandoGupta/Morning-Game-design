@@ -1,4 +1,6 @@
-# this is the copy of the menu for later use in the final project 
+# this is the copy of the menu for the final game, now finished 
+#goals for this on google doc 
+#functions: for menue def game_1() then def game_1_end() to bring u to an end screen 
 
 
 # Fernando Gupta
